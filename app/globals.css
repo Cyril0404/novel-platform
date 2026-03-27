@@ -347,3 +347,51 @@ body {
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom, 16px);
 }
+
+/* Landscape mode adaptations */
+@media (orientation: landscape) and (max-width: 1024px) {
+  .landscape-mode {
+    /* Hide scrollbar in landscape for cleaner look */
+    overflow-y: auto;
+  }
+
+  .landscape-content {
+    max-width: 1000px !important;
+    margin: 0 auto;
+  }
+}
+
+/* Large screens in landscape */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .landscape-content {
+    max-width: 800px !important;
+  }
+}
+
+/* System font for better readability */
+.font-system {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* Better text rendering for reading */
+.reading-text {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* AMOLED black theme enhancements */
+.bg-black {
+  background-color: #000000 !important;
+}
+
+/* RTL support for Arabic */
+[dir="rtl"] .rtl\:flip {
+  transform: scaleX(-1);
+}
+
+/* RTL text alignment */
+[dir="rtl"] input,
+[dir="rtl"] textarea {
+  text-align: right;
+}

@@ -33,6 +33,8 @@ export default function ChapterPage({
   const [showBookmarkModal, setShowBookmarkModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isLandscape, setIsLandscape] = useState(false);
+  const [showControls, setShowControls] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
 
   // TTS state
@@ -51,6 +53,48 @@ export default function ChapterPage({
     const timer = setTimeout(() => setLoading(false), 500);
     return () => clearTimeout(timer);
   }, []);
+
+  // Detect orientation changes
+  useEffect(() => {
+    const handleOrientationChange = () => {
+      const landscape = window.matchMedia("(orientation: landscape)").matches;
+      setIsLandscape(landscape);
+      // Auto-hide controls in landscape for more reading space
+      if (landscape) {
+        setShowControls(false);
+      }
+    };
+
+    // Initial check
+    handleOrientationChange();
+
+    // Listen for orientation changes
+    const mediaQuery = window.matchMedia("(orientation: landscape)");
+    mediaQuery.addEventListener("change", handleOrientationChange);
+
+    // Also listen for resize events (desktop browser resizing)
+    const handleResize = () => {
+      const isLandscapeBrowser = window.innerWidth > window.innerHeight;
+      setIsLandscape(isLandscapeBrowser);
+      if (isLandscapeBrowser && window.innerWidth > 768) {
+        // Only auto-hide on larger screens
+        setShowControls(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleOrientationChange);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Tap content to toggle controls in landscape
+  const handleContentTap = () => {
+    if (isLandscape || window.innerWidth > window.innerHeight) {
+      setShowControls((prev) => !prev);
+    }
+  };
 
   const chapterContent = `
 The morning sun cast long shadows across the imperial garden as Emperor Kaios walked alone among the cherry blossoms. Three thousand years he had walked these paths, yet today they felt different somehow. The petals that once brought him peace now served only to remind him of all he had lost.
@@ -336,13 +380,29 @@ The emperor straightened, the weight of three thousand years falling from his sh
   }
 
   return (
-    <div className={`min-h-screen ${getThemeBodyClass(theme)} transition-colors duration-300`}>
+    <div className={`min-h-screen ${getThemeBodyClass(theme)} transition-colors duration-300 ${isLandscape ? "landscape-mode" : ""}`}>
       {/* Reading Progress Bar */}
-      <div className="fixed top-0 left-0 right-0 z-[60] h-1 bg-stone-200/50">
+      <div className={`fixed top-0 left-0 right-0 z-[60] h-1 bg-stone-200/50 transition-all duration-300 ${isLandscape && !showControls ? "opacity-0" : "opacity-100"}`}>
         <div
           className="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-150"
           style={{ width: `${scrollProgress}%` }}
         />
+      </div>
+
+      {/* Landscape Mode Indicator */}
+      {isLandscape && (
+        <div className="fixed bottom-4 right-4 z-[60] flex items-center gap-2 rounded-full bg-black/50 px-3 py-1.5 text-xs text-white/70 backdrop-blur-sm lg:hidden">
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+          </svg>
+          <span>Tap to {showControls ? "hide" : "show"} controls</span>
+        </div>
+      )}
+
+      {/* Header */}
+      <header className={`sticky top-0 z-50 border-b border-stone-200/30 bg-gradient-to-r ${getThemeBgClass(theme)} backdrop-blur-xl transition-all duration-300 ${
+        isLandscape && !showControls ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
+      }`}>
       </div>
 
       {/* Header */}
@@ -679,9 +739,18 @@ The emperor straightened, the weight of three thousand years falling from his sh
       )}
 
       {/* Content */}
-      <article ref={contentRef} className="mx-auto py-8" style={{ paddingLeft: `${margin}px`, paddingRight: `${margin}px` }}>
+      <article
+        ref={contentRef}
+        className={`mx-auto py-4 sm:py-8 transition-all duration-300 ${isLandscape ? "landscape-content" : ""}`}
+        style={{
+          paddingLeft: isLandscape ? "16px" : `${margin}px`,
+          paddingRight: isLandscape ? "16px" : `${margin}px`,
+          maxWidth: isLandscape ? "1200px" : "4xl"
+        }}
+        onClick={handleContentTap}
+      >
         <div
-          className={`rounded-3xl p-6 sm:p-8 shadow-xl transition-colors duration-300 ${
+          className={`rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-xl transition-colors duration-300 ${
             theme === "dark"
               ? "bg-stone-900/50"
               : theme === "sepia"
@@ -691,11 +760,11 @@ The emperor straightened, the weight of three thousand years falling from his sh
               : "bg-white/80"
           }`}
           style={{
-            fontSize: `${fontSize}px`,
+            fontSize: `${isLandscape ? Math.min(fontSize + 4, 28) : fontSize}px`,
             lineHeight: lineHeight,
           }}
         >
-          <h1 className="mb-8 text-center text-2xl font-bold tracking-tight">
+          <h1 className={`mb-6 sm:mb-8 text-center font-bold tracking-tight ${isLandscape ? "text-xl sm:text-2xl" : "text-2xl"}`}>
             Chapter {chapterNumber}
           </h1>
           <div className={`tracking-wide ${fontFamilyClasses[fontFamily]}`} style={{ textAlign }}>
@@ -709,7 +778,7 @@ The emperor straightened, the weight of three thousand years falling from his sh
       </article>
 
       {/* Navigation */}
-      <nav className="mx-auto max-w-4xl px-4 pb-8">
+      <nav className={`mx-auto max-w-4xl px-4 pb-8 transition-all duration-300 ${isLandscape && !showControls ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}>
         <div className={`flex items-center justify-between rounded-2xl p-4 shadow-lg transition-colors duration-300 ${
           theme === "dark" ? "bg-stone-800/80" : "bg-white/90"
         }`}>
