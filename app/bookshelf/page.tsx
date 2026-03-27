@@ -112,6 +112,8 @@ export default function BookshelfPage() {
     reading: items.filter((i) => i.status === "READING").length,
     completed: items.filter((i) => i.status === "COMPLETED").length,
     plan: items.filter((i) => i.status === "PLAN_TO_READ").length,
+    on_hold: items.filter((i) => i.status === "ON_HOLD").length,
+    dropped: items.filter((i) => i.status === "DROPPED").length,
   };
 
   if (loading) {
@@ -154,22 +156,25 @@ export default function BookshelfPage() {
         </div>
 
         {/* Stats */}
-        <div className="mb-8 grid grid-cols-3 gap-4">
+        <div className="mb-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {[
             { key: "all", label: "Total", color: "from-stone-500 to-stone-600", count: statusCounts.all },
             { key: "reading", label: "Reading", color: "from-blue-500 to-blue-600", count: statusCounts.reading },
             { key: "completed", label: "Completed", color: "from-emerald-500 to-emerald-600", count: statusCounts.completed },
+            { key: "plan", label: "Plan", color: "from-stone-400 to-stone-500", count: statusCounts.plan },
+            { key: "on_hold", label: "On Hold", color: "from-yellow-500 to-yellow-600", count: statusCounts.on_hold },
+            { key: "dropped", label: "Dropped", color: "from-red-500 to-red-600", count: statusCounts.dropped },
           ].map(({ key, label, color, count }, i) => (
             <button
               key={key}
               onClick={() => setFilter(key)}
-              className={`animate-fade-in-up rounded-2xl bg-gradient-to-r ${color} p-6 text-center shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl opacity-0 ${
+              className={`animate-fade-in-up rounded-2xl bg-gradient-to-r ${color} p-4 text-center shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl opacity-0 ${
                 filter === key ? "ring-4 ring-white ring-offset-2" : ""
               }`}
               style={{ animationDelay: `${i * 0.05}s`, animationFillMode: "forwards" }}
             >
-              <p className="text-3xl font-bold text-white">{count}</p>
-              <p className="mt-1 text-sm font-medium text-white/80">{label}</p>
+              <p className="text-2xl font-bold text-white">{count}</p>
+              <p className="mt-1 text-xs font-medium text-white/80">{label}</p>
             </button>
           ))}
         </div>
@@ -181,6 +186,8 @@ export default function BookshelfPage() {
             { key: "reading", label: `Reading`, count: statusCounts.reading },
             { key: "completed", label: `Completed`, count: statusCounts.completed },
             { key: "plan", label: `Plan to Read`, count: statusCounts.plan },
+            { key: "on_hold", label: `On Hold`, count: statusCounts.on_hold },
+            { key: "dropped", label: `Dropped`, count: statusCounts.dropped },
           ].map(({ key, label, count }) => (
             <button
               key={key}

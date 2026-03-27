@@ -40,7 +40,9 @@ export default function ChapterPage({
   // TTS state
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speechRate, setSpeechRate] = useState(1);
+  const [speechLang, setSpeechLang] = useState<"en" | "es" | "ar" | "zh">("en");
   const [showTTSPanel, setShowTTSPanel] = useState(false);
+  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
   const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
   const paragraphsRef = useRef<string[]>([]);
   const currentParagraphRef = useRef(0);
@@ -48,6 +50,38 @@ export default function ChapterPage({
   const chapterNumber = parseInt(params.number);
   const prevChapter = chapterNumber > 1 ? chapterNumber - 1 : null;
   const nextChapter = chapterNumber < 342 ? chapterNumber + 1 : null;
+
+  // Load available TTS voices
+  useEffect(() => {
+    const loadVoices = () => {
+      const voices = speech.getVoices();
+      setAvailableVoices(voices);
+    };
+    loadVoices();
+    speech.onvoiceschanged = loadVoices;
+    return () => {
+      speech.onvoiceschanged = null;
+    };
+  }, []);
+
+  // Map language codes to TTS lang codes
+  const getTTSLang = (lang: "en" | "es" | "ar" | "zh") => {
+    switch (lang) {
+      case "en": return "en-US";
+      case "es": return "es-ES";
+      case "ar": return "ar-SA";
+      case "zh": return "zh-CN";
+    }
+  };
+
+  // Find best available voice for language
+  const findBestVoice = (lang: string): SpeechSynthesisVoice | undefined => {
+    // Prefer native voices
+    const nativeVoice = availableVoices.find(v => v.lang.startsWith(lang) && !v.name.includes("Google"));
+    if (nativeVoice) return nativeVoice;
+    const googleVoice = availableVoices.find(v => v.lang.startsWith(lang));
+    return googleVoice;
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 500);
@@ -281,7 +315,13 @@ The emperor straightened, the weight of three thousand years falling from his sh
 
     const utterance = new SpeechSynthesisUtterance(cleanText(paragraphs[index]));
     utterance.rate = speechRate;
-    utterance.lang = "en-US";
+    utterance.lang = getTTSLang(speechLang);
+
+    // Try to set a native voice for better pronunciation
+    const voice = findBestVoice(speechLang);
+    if (voice) {
+      utterance.voice = voice;
+    }
 
     utterance.onend = () => {
       currentParagraphRef.current = index + 1;
@@ -294,7 +334,7 @@ The emperor straightened, the weight of three thousand years falling from his sh
 
     speechRef.current = utterance;
     speech.speak(utterance);
-  }, [speechRate]);
+  }, [speechRate, speechLang, getTTSLang, findBestVoice]);
 
   const toggleSpeech = useCallback(() => {
     if (isSpeaking) {
@@ -309,7 +349,7 @@ The emperor straightened, the weight of three thousand years falling from his sh
 
     setIsSpeaking(true);
     speakParagraph(paragraphs, 0);
-  }, [isSpeaking, chapterContent, speakParagraph]);
+  }, [isSpeaking, chapterContent, speakParagraph, speechLang]);
 
   const stopSpeech = useCallback(() => {
     speech.cancel();
@@ -626,7 +666,7 @@ The emperor straightened, the weight of three thousand years falling from his sh
 
         {/* TTS Panel */}
         <div className={`overflow-hidden transition-all duration-300 ${
-          showTTSPanel ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+          showTTSPanel ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
         }`}>
           <div className={`mx-4 mb-4 rounded-2xl border border-stone-200/30 p-4 backdrop-blur-sm ${
             theme === "dark" ? "bg-stone-800/50" : "bg-white/80"
@@ -658,17 +698,47 @@ The emperor straightened, the weight of three thousand years falling from his sh
                 )}
               </button>
 
-              {/* Speed Control */}
-              <div className="flex items-center gap-4">
+              {/* Language Selection */}
+              <div className="flex items-center gap-3">
                 <label className={`text-sm font-medium ${theme === "dark" ? "text-stone-300" : "text-stone-700"}`}>
-                  Speed: {speechRate}x
+                  Voice:
                 </label>
                 <div className="flex gap-1">
-                  {[0.5, 0.75, 1, 1.25, 1.5, 2].map((rate) => (
+                  {(["en", "es", "ar", "zh"] as const).map((lang) => (
+                    <button
+                      key={lang}
+                      onClick={() => {
+                        setSpeechLang(lang);
+                        if (isSpeaking) {
+                          speech.cancel();
+                          setIsSpeaking(false);
+                        }
+                      }}
+                      className={`rounded-lg px-3 py-1.5 text-xs font-medium capitalize transition-all ${
+                        speechLang === lang
+                          ? "bg-emerald-500 text-white"
+                          : theme === "dark"
+                          ? "bg-stone-700/50 text-stone-300 hover:bg-stone-700"
+                          : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+                      }`}
+                    >
+                      {lang === "en" ? "EN" : lang === "es" ? "ES" : lang === "ar" ? "AR" : "ZH"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Speed Control */}
+              <div className="flex items-center gap-3">
+                <label className={`text-sm font-medium ${theme === "dark" ? "text-stone-300" : "text-stone-700"}`}>
+                  Speed:
+                </label>
+                <div className="flex gap-1">
+                  {[0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3].map((rate) => (
                     <button
                       key={rate}
                       onClick={() => changeSpeechRate(rate)}
-                      className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
+                      className={`rounded-lg px-2 py-1.5 text-xs font-medium transition-all ${
                         speechRate === rate
                           ? "bg-emerald-500 text-white"
                           : theme === "dark"
@@ -681,6 +751,13 @@ The emperor straightened, the weight of three thousand years falling from his sh
                   ))}
                 </div>
               </div>
+            </div>
+
+            {/* Current voice indicator */}
+            <div className="mt-3 flex items-center gap-2">
+              <span className={`text-xs ${theme === "dark" ? "text-stone-400" : "text-stone-500"}`}>
+                Using: {findBestVoice(speechLang)?.name || getTTSLang(speechLang)}
+              </span>
             </div>
 
             {/* Status */}
