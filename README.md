@@ -1,76 +1,80 @@
-# NovelFlow - 小说阅读平台开发手册
+# NovelFlow - 全球经典公版书阅读平台
+## 📋 项目定位
+面向全球用户的公版经典文学阅读平台，提供英文、西班牙文、阿拉伯文等多语言版本的中国古典名著、世界经典文学阅读服务。主打无广告、纯净阅读体验，支持多种阅读设置和TTS听书功能，适合全球用户免费阅读公版书籍。
 
-## 目录
-
-1. [项目介绍](#1-项目介绍)
-2. [技术栈](#2-技术栈)
-3. [功能列表](#3-功能列表)
-4. [快速开始](#4-快速开始)
-5. [项目结构](#5-项目结构)
-6. [环境变量配置](#6-环境变量配置)
-7. [数据库](#7-数据库)
-8. [API 文档](#8-api-文档)
-9. [主要功能实现](#9-主要功能实现)
-10. [部署指南](#10-部署指南)
+**GitHub仓库：** https://github.com/Cyril0404/novel-platform
+**技术栈：** Next.js 14 + TypeScript + Prisma + Tailwind CSS
+**适合市场：** 欧美、拉美、中东、东南亚等全球市场
 
 ---
 
-## 1. 项目介绍
+## 目录
+1. [核心功能](#1-核心功能)
+2. [技术栈](#2-技术栈)
+3. [快速开始](#3-快速开始)
+4. [项目结构](#4-项目结构)
+5. [出海适配指南](#5-出海适配指南)
+6. [公版书批量导入指南](#6-公版书批量导入指南)
+7. [国际化配置](#7-国际化配置)
+8. [环境变量配置](#8-环境变量配置)
+9. [数据库](#9-数据库)
+10. [API 文档](#10-API-文档)
+11. [部署指南](#11-部署指南)
 
-NovelFlow 是一款面向读者的中文小说阅读平台，提供小说浏览、阅读、评论、评分等功能，支持多种阅读设置和 TTS 听书。
+---
 
-**在线演示：** https://github.com/Cyril0404/novel-platform
+## 1. 核心功能
+### 1.1 阅读核心功能
+- ✅ 书籍列表浏览（分类筛选、热度/评分/最新排序）
+- ✅ 书籍详情页（简介、作者信息、评分、评论）
+- ✅ 章节阅读器（无广告、纯净阅读）
+- ✅ 阅读进度自动跟踪，上次阅读位置记忆
+- ✅ 个人书架管理（收藏、阅读状态标记）
+
+### 1.2 极致阅读体验
+- ✅ 4种主题模式：Light / Dark / Sepia / AMOLED纯黑
+- ✅ 字体大小调节（14-32px）
+- ✅ 行间距调节（1.2-3.0倍）
+- ✅ 边距调节（0-40px）
+- ✅ 多字体选择：Sans / Serif / Mono / 系统字体
+- ✅ TTS听书（支持0.5x - 3x语速，多语言发音）
+- ✅ 章节快速跳转、阅读进度条
+- ✅ 横屏/竖屏自适应
+
+### 1.3 社区功能
+- ✅ 1-5星评分系统
+- ✅ 评论、留言系统
+- ✅ 智能推荐（基于题材、阅读历史）
+- ✅ 热门排行、新书推荐
+
+### 1.4 用户功能
+- ✅ 邮箱/社交账号登录注册
+- ✅ 阅读历史自动同步
+- ✅ 多设备阅读进度同步
+- ✅ 书架收藏、分类管理
+
+---
 
 ## 2. 技术栈
+| 类别 | 技术 | 优势 |
+|-----|------|------|
+| 框架 | Next.js 14 (App Router) | 服务端渲染，SEO友好，适合出海流量 |
+| 语言 | TypeScript | 类型安全，易于维护 |
+| 样式 | Tailwind CSS | 响应式设计，快速开发 |
+| 数据库 | SQLite (Prisma ORM) | 轻量、高性能，无需单独数据库服务 |
+| 认证 | NextAuth.js | 支持多平台OAuth登录，易于扩展 |
+| UI组件 | Radix UI + 自定义组件 | 无障碍友好，性能优秀 |
+| 国际化 | next-intl | 多语言支持，轻松适配全球市场 |
 
-| 类别 | 技术 |
-|-----|------|
-| 框架 | Next.js 14 (App Router) |
-| 语言 | TypeScript |
-| 样式 | Tailwind CSS |
-| 数据库 | SQLite (Prisma ORM) |
-| 认证 | NextAuth.js |
-| UI 组件 | Radix UI + 自定义组件 |
-| 状态管理 | React Context + Hooks |
+---
 
-## 3. 功能列表
-
-### 3.1 核心功能
-- [x] 小说列表浏览（分类筛选、排序）
-- [x] 小说详情页
-- [x] 章节阅读器
-- [x] 阅读进度跟踪
-- [x] 书架管理
-
-### 3.2 阅读体验
-- [x] 三种主题模式（Light / Dark / Sepia）
-- [x] 字体大小调节（14-28px）
-- [x] 行间距调节（1.2-2.4倍）
-- [x] 字体选择（Sans / Serif / Mono）
-- [x] TTS 听书（支持 0.5x - 2x 语速）
-- [x] 阅读进度条
-- [x] 上次阅读位置记忆
-- [x] 章节快速跳转
-
-### 3.3 社区功能
-- [x] 用户评分（1-5星）
-- [x] 评论系统
-- [x] 阅读推荐（基于题材标签）
-
-### 3.4 用户功能
-- [x] 邮箱登录/注册
-- [x] 书架收藏
-- [x] 阅读历史
-
-## 4. 快速开始
-
-### 4.1 环境要求
+## 3. 快速开始
+### 3.1 环境要求
 - Node.js 18+
 - npm / yarn / pnpm
 - Git
 
-### 4.2 安装步骤
-
+### 3.2 安装步骤
 ```bash
 # 1. 克隆仓库
 git clone https://github.com/Cyril0404/novel-platform.git
@@ -81,325 +85,202 @@ npm install
 
 # 3. 配置环境变量
 cp .env.example .env
-# 编辑 .env 文件，填写必要的环境变量
+# 编辑 .env 文件，填写必要配置
 
 # 4. 初始化数据库
 npx prisma generate
 npx prisma db push
 
-# 5. 填充种子数据（可选）
+# 5. 导入公版书数据（可选）
 npx prisma db seed
 
 # 6. 启动开发服务器
 npm run dev
 ```
 
-### 4.3 访问应用
+### 3.3 访问应用
 - 开发服务器：http://localhost:3000
-- 数据库可视化：http://localhost:5555（如需 Prisma Studio）
+- 数据库可视化管理：http://localhost:5555（运行 `npx prisma studio` 启动）
 
-## 5. 项目结构
+---
 
+## 4. 项目结构
 ```
 novel-platform/
 ├── app/                      # Next.js App Router
-│   ├── api/                  # API 路由
-│   │   ├── auth/             # 认证 API
-│   │   ├── bookmarks/         # 书签 API
-│   │   ├── bookshelf/         # 书架 API
-│   │   ├── history/           # 阅读历史 API
-│   │   ├── novels/            # 小说 API
-│   │   │   ├── recommendations/  # 推荐 API
-│   │   │   └── trending/      # 热门 API
-│   │   ├── progress/          # 阅读进度 API
-│   │   ├── reviews/           # 评论 API
-│   │   └── search/            # 搜索 API
-│   ├── auth/                  # 认证页面
-│   │   └── signin/
-│   ├── author/                # 作者页面
-│   │   └── [slug]/
-│   ├── bookshelf/             # 书架页面
-│   ├── history/               # 历史页面
-│   ├── novel/                 # 小说页面
-│   │   └── [slug]/
-│   │       └── chapter/
-│   │           └── [number]/ # 章节阅读页
-│   ├── novels/                # 小说列表页
-│   ├── search/                # 搜索页面
-│   ├── layout.tsx             # 根布局
-│   ├── page.tsx              # 首页
-│   └── globals.css            # 全局样式
-├── components/                # React 组件
-│   ├── ui/                   # UI 基础组件
-│   │   └── skeleton.tsx      # 加载骨架屏
-│   ├── header.tsx            # 顶部导航
-│   ├── theme-provider.tsx    # 主题提供者
-│   ├── providers.tsx         # 全局提供者
-│   ├── reading-settings.tsx  # 阅读设置
-│   ├── reviews.tsx           # 评论组件
-│   └── recommendations.tsx   # 推荐组件
+│   ├── api/                  # API路由
+│   │   ├── auth/             # 认证接口
+│   │   ├── books/            # 书籍相关接口
+│   │   ├── bookshelf/        # 书架接口
+│   │   ├── progress/         # 阅读进度接口
+│   │   └── reviews/          # 评论接口
+│   ├── [locale]/             # 多语言路由（en/es/ar等）
+│   │   ├── books/            # 书籍列表页
+│   │   ├── book/[slug]/      # 书籍详情页
+│   │   └── read/[slug]/[chapter]/ # 阅读页
+│   ├── layout.tsx            # 全局布局
+│   └── page.tsx              # 首页
+├── components/               # 通用组件
 ├── lib/                      # 工具库
-│   ├── auth.ts               # NextAuth 配置
-│   ├── auth-options.ts       # 认证选项
-│   └── prisma.ts             # Prisma 客户端
+├── messages/                 # 多语言翻译文件
 ├── prisma/                   # 数据库
 │   ├── schema.prisma         # 数据模型
-│   ├── dev.db                # SQLite 数据库
-│   └── seed.ts               # 种子数据
+│   └── seed.ts               # 公版书导入脚本
 ├── public/                   # 静态资源
-├── .env                      # 环境变量
-├── .env.example              # 环境变量示例
-├── next.config.js            # Next.js 配置
-├── tailwind.config.ts        # Tailwind 配置
-└── tsconfig.json             # TypeScript 配置
+├── content/                  # 公版书内容库（按语言分类）
+│   ├── en/                   # 英文书籍
+│   ├── es/                   # 西班牙文书籍
+│   └── ar/                   # 阿拉伯文书籍
+└── 配置文件...
 ```
 
-## 6. 环境变量配置
+---
 
+## 5. 出海适配指南
+### 5.1 目标市场适配
+| 市场 | 语言 | 特色适配 |
+|------|------|----------|
+| 欧美 | 英文 | 经典名著、中国古典文学英文翻译 |
+| 拉美 | 西班牙文 | 西语翻译作品，符合拉美用户阅读习惯 |
+| 中东 | 阿拉伯文 | RTL从右往左排版，符合伊斯兰文化规范 |
+| 东南亚 | 英文/本地语言 | 轻量化加载，适合移动网络 |
+
+### 5.2 内容合规要求
+- ✅ 仅使用公版书籍，无版权风险
+- ❌ 禁止涉及宗教、政治、色情等敏感内容
+- ❌ 阿拉伯市场禁止出现猪、酒、暴露女性等违规内容
+- ✅ 所有内容经过当地语言母语者审核
+
+---
+
+## 6. 公版书批量导入指南
+### 6.1 支持的公版书列表（已翻译）
+| 书名 | 英文 | 西班牙文 | 阿拉伯文 |
+|------|------|----------|----------|
+| 西游记 | ✅ 已完成 | ⏳ 翻译中 | ⏳ 计划中 |
+| 道德经 | ✅ 已完成 | ✅ 已完成 | ⏳ 计划中 |
+| 红楼梦 | ✅ 已完成 | ⏳ 翻译中 | ⏳ 计划中 |
+| 三国演义 | ✅ 已完成 | ⏳ 翻译中 | ⏳ 计划中 |
+| 水浒传 | ✅ 已完成 | ⏳ 翻译中 | ⏳ 计划中 |
+| 论语 | ✅ 已完成 | ✅ 已完成 | ⏳ 计划中 |
+| 孙子兵法 | ✅ 已完成 | ✅ 已完成 | ⏳ 计划中 |
+
+### 6.2 批量导入步骤
+1. 将翻译好的书籍按语言分类放入 `content/{lang}/` 目录
+2. 每本书格式：`{book-slug}/chapter_{n}.md`（Markdown格式）
+3. 编辑 `prisma/seed.ts` 添加书籍元数据（书名、作者、简介、封面）
+4. 执行导入命令：`npx prisma db seed`
+5. 访问网站即可看到导入的书籍
+
+### 6.3 书籍元数据格式
+```typescript
+interface Book {
+  slug: string;           // URL友好的标识，如 "journey-to-the-west"
+  title: string;          // 书名
+  author: string;         // 作者
+  synopsis: string;       // 简介
+  cover: string;          // 封面图片URL
+  language: string;       // 语言：en/es/ar
+  genres: string[];       // 分类：["Classics", "Fiction", "Chinese Literature"]
+  totalChapters: number;  // 总章节数
+}
+```
+
+---
+
+## 7. 国际化配置
+### 7.1 添加新语言
+1. 在 `messages/` 目录下新建语言文件，如 `ar.json`（阿拉伯文）
+2. 复制 `en.json` 的内容并翻译
+3. 在 `next.config.js` 中添加新语言到 `locales` 数组
+4. 重启服务即可生效
+
+### 7.2 RTL（从右往左）语言支持
+阿拉伯文、希伯来文等RTL语言自动适配：
+- 配置 `i18n.ts` 中标记该语言为RTL
+- Tailwind CSS自动调整布局方向
+- 字体自动切换为适合当地的字体
+
+---
+
+## 8. 环境变量配置
 创建 `.env` 文件：
-
 ```env
 # 数据库
 DATABASE_URL="file:./dev.db"
 
 # NextAuth
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="your-secret-key-here-generate-with-openssl"
+NEXTAUTH_URL="https://your-domain.com"
+NEXTAUTH_SECRET="your-secret-key-here"
 
-# OAuth（可选，如使用 GitHub 登录）
-GITHUB_ID="your-github-oauth-app-id"
-GITHUB_SECRET="your-github-oauth-app-secret"
+# 可选：OAuth登录配置
+GITHUB_ID="your-github-id"
+GITHUB_SECRET="your-github-secret"
+GOOGLE_ID="your-google-id"
+GOOGLE_SECRET="your-google-secret"
+
+# 可选：分析统计
+ANALYTICS_ID="your-google-analytics-id"
 ```
 
-### 6.1 获取 GitHub OAuth 凭证
-1. 打开 https://github.com/settings/developers
-2. 点击 **New OAuth App**
-3. 填写：
-   - Application name: NovelFlow Dev
-   - Homepage URL: http://localhost:3000
-   - Authorization callback URL: http://localhost:3000/api/auth/callback/github
-4. 注册后获取 Client ID 和 Client Secret
+---
 
-## 7. 数据库
-
-### 7.1 数据模型
-
+## 9. 数据库
+### 9.1 核心数据模型
 ```
-User
-├── id, email, name, avatar, createdAt
-├── bookshelf: Bookshelf[]    # 书架
-├── readingProgress: ReadingProgress[]  # 阅读进度
-├── bookmarks: Bookmark[]     # 书签
-└── reviews: Review[]         # 评论
-
-Novel
-├── id, slug, title, synopsis, cover
-├── status (ONGOING/COMPLETED/HIATUS/DROPPED)
-├── rating, totalRatings, views
-├── author: Author
-├── chapters: Chapter[]
-├── genres: Genre[]
-├── tags: Tag[]
-├── bookshelf: Bookshelf[]
-└── reviews: Review[]
-
-Author
-├── id, name, slug, bio, avatar
-└── novels: Novel[]
-
-Chapter
-├── id, number, title, content, wordCount
-├── novel: Novel
-├── readingProgress: ReadingProgress[]
-└── bookmarks: Bookmark[]
-
-Genre / Tag
-├── id, name, slug
-└── novels: Novel[]
-
-Bookshelf (用户书架)
-├── id, status (READING/COMPLETED/PLAN_TO_READ/ON_HOLD/DROPPED)
-├── user: User
-└── novel: Novel
-
-ReadingProgress (阅读进度)
-├── id, chapterNumber, percentage
-├── user: User
-└── chapter: Chapter
-
-Bookmark (书签)
-├── id, position, note, createdAt
-├── user: User
-└── chapter: Chapter
-
-Review (评论)
-├── id, rating (1-5), content, createdAt
-├── user: User
-└── novel: Novel
+User          用户表
+Book          书籍表（元数据）
+Chapter       章节表（内容）
+Author        作者表
+Genre         分类表
+Bookshelf     用户书架
+ReadingProgress 阅读进度
+Review        评论评分
 ```
 
-### 7.2 数据库操作命令
-
+### 9.2 常用数据库命令
 ```bash
-# 生成 Prisma 客户端
-npx prisma generate
-
-# 推送 schema 到数据库
-npx prisma db push
-
-# 打开 Prisma Studio（数据库可视化）
-npx prisma studio
-
-# 重置数据库
-npx prisma db push --force-reset
-
-# 填充种子数据
-npx prisma db seed
+npx prisma generate   # 生成Prisma客户端
+npx prisma db push    # 同步表结构到数据库
+npx prisma studio     # 打开数据库可视化管理
+npx prisma db seed    # 导入公版书数据
+npx prisma db reset   # 重置数据库
 ```
 
-## 8. API 文档
+---
 
-### 8.1 小说 API
-
-**获取小说列表**
+## 10. API 文档
+### 10.1 书籍相关接口
 ```
-GET /api/novels
-Query: genre, tags, status, sort (rating/views/newest/updated)
-```
-
-**获取单个小说**
-```
-GET /api/novels?slug={slug}
+GET /api/books             # 获取书籍列表，支持筛选、排序
+GET /api/books?slug={slug} # 获取单个书籍详情
+GET /api/books/trending    # 获取热门书籍
+GET /api/books/recommended # 获取推荐书籍
 ```
 
-**获取推荐小说**
+### 10.2 阅读相关接口
 ```
-GET /api/novels/recommendations?novelId={id}&limit={4}
-```
-
-**获取热门小说**
-```
-GET /api/novels/trending
+GET /api/chapters?bookId={id} # 获取书籍章节列表
+GET /api/progress?bookId={id} # 获取用户阅读进度
+POST /api/progress            # 更新阅读进度
 ```
 
-### 8.2 阅读进度 API
+---
 
-**获取进度**
-```
-GET /api/progress?chapterId={id}
-GET /api/progress  # 获取所有进度
-```
+## 11. 部署指南
+### 11.1 Vercel部署（推荐，全球CDN加速）
+1. Push代码到GitHub仓库
+2. 登录Vercel导入项目
+3. 配置环境变量
+4. 一键部署，自动全球CDN加速，访问速度快
 
-**更新进度**
-```
-POST /api/progress
-Body: { chapterId, chapterNumber, percentage }
-```
+### 11.2 Cloudflare Pages部署（免费，适合小流量）
+1. 连接GitHub仓库
+2. 配置构建命令：`npm run build`
+3. 配置输出目录：`.next`
+4. 自动部署，Cloudflare全球CDN加速
 
-### 8.3 书架 API
-
-**获取书架**
-```
-GET /api/bookshelf
-```
-
-**添加到书架**
-```
-POST /api/bookshelf
-Body: { novelId, status }
-```
-
-**从书架移除**
-```
-DELETE /api/bookshelf?novelId={id}
-```
-
-### 8.4 评论 API
-
-**获取评论**
-```
-GET /api/reviews?novelId={id}
-```
-
-**提交评论**
-```
-POST /api/reviews
-Body: { novelId, rating, content? }
-```
-
-## 9. 主要功能实现
-
-### 9.1 阅读设置持久化
-
-阅读设置（主题、字体、字号等）使用 Context + localStorage 实现持久化：
-
-```tsx
-// components/reading-settings.tsx
-const STORAGE_KEY = "novel-platform-reading-settings";
-
-interface ReadingSettings {
-  theme: "light" | "dark" | "sepia";
-  fontSize: number;
-  lineHeight: number;
-  fontFamily: "sans" | "serif" | "mono";
-}
-```
-
-### 9.2 TTS 听书
-
-使用 Web Speech API 实现：
-
-```tsx
-const speakParagraph = useCallback((paragraphs: string[], index: number) => {
-  const utterance = new SpeechSynthesisUtterance(cleanText(paragraphs[index]));
-  utterance.rate = speechRate; // 0.5 - 2.0
-  utterance.lang = "en-US";
-
-  utterance.onend = () => {
-    speakParagraph(paragraphs, index + 1); // 自动播放下一段
-  };
-
-  speech.speak(utterance);
-}, [speechRate]);
-```
-
-### 9.3 上次阅读位置
-
-通过 ReadingProgress 表记录用户阅读位置，小说详情页获取最新进度：
-
-```tsx
-const novelProgress = allProgress
-  .filter((p) => p.chapter?.novel?.slug === params.slug)
-  .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
-```
-
-### 9.4 阅读推荐
-
-基于相同题材（Genre）和标签（Tag）计算相似度：
-
-```sql
-SELECT * FROM Novel
-WHERE id != @currentId
-AND (
-  id IN (SELECT novelId FROM NovelGenres WHERE genreId IN (@currentGenreIds))
-  OR id IN (SELECT novelId FROM NovelTags WHERE tagId IN (@currentTagIds))
-)
-ORDER BY rating DESC, views DESC
-LIMIT @limit
-```
-
-## 10. 部署指南
-
-### 10.1 Vercel 部署（推荐）
-
-1. Fork 或推送代码到 GitHub
-2. 访问 https://vercel.com
-3. Import 项目
-4. 配置环境变量
-5. Deploy
-
-### 10.2 Docker 部署
-
+### 11.3 Docker部署
 ```dockerfile
 FROM node:18-alpine
 WORKDIR /app
@@ -407,34 +288,14 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN npx prisma generate && npx prisma db push
+RUN npm run build
 EXPOSE 3000
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
 ```
 
-### 10.3 传统服务器部署
+---
 
-```bash
-# 安装 Node.js 18+
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# 安装 PM2
-npm install -g pm2
-
-# 克隆并部署
-git clone https://github.com/Cyril0404/novel-platform.git
-cd novel-platform
-npm install
-npm run build
-
-# 使用 PM2 启动
-pm2 start npm --name "novel-platform" -- start
-pm2 save
-pm2 startup
-```
-
-## 附录：常用命令
-
+## 常用命令
 ```bash
 # 开发
 npm run dev          # 启动开发服务器
@@ -442,21 +303,18 @@ npm run build        # 构建生产版本
 npm run start        # 启动生产服务器
 npm run lint         # 代码检查
 
-# 数据库
-npx prisma studio    # 打开数据库可视化工具
-npx prisma db push   # 同步 schema 到数据库
-npx prisma generate  # 生成 Prisma 客户端
-npx prisma db seed   # 填充种子数据
+# 数据导入
+npx prisma db seed   # 导入公版书数据
+npx prisma studio    # 数据库管理
 
-# Git
-git status           # 查看状态
-git add .            # 暂存所有更改
-git commit -m ""     # 提交
-git push             # 推送到远程
+# Git操作
+git add .
+git commit -m "feat: add new book"
+git push
 ```
 
 ---
 
-**版本：** v1.0.0
+**版本：** v2.0.0（出海优化版）
 **最后更新：** 2026-03-27
-**作者：** NovelFlow Team
+**维护者：** OpenClaw Team
