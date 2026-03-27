@@ -4,8 +4,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { SkeletonReader } from "@/components/ui/skeleton";
-import { useReadingSettings, fontFamilyClasses, fontFamilyLabels } from "@/components/reading-settings";
-import type { FontFamily } from "@/components/reading-settings";
+import { useReadingSettings, fontFamilyClasses, fontFamilyLabels, themeLabels, themeClasses } from "@/components/reading-settings";
+import type { FontFamily, ReaderTheme } from "@/components/reading-settings";
 
 export default function ChapterPage({
   params,
@@ -18,10 +18,14 @@ export default function ChapterPage({
     fontSize,
     lineHeight,
     fontFamily,
+    margin,
+    textAlign,
     setTheme,
     setFontSize,
     setLineHeight,
     setFontFamily,
+    setMargin,
+    setTextAlign,
   } = useReadingSettings();
   const [showSettings, setShowSettings] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
@@ -290,21 +294,37 @@ The emperor straightened, the weight of three thousand years falling from his sh
     stopSpeech();
   }, [params.slug, params.number, stopSpeech]);
 
-  const themeClasses = {
-    light: "bg-stone-50 text-stone-800",
-    dark: "bg-stone-950 text-stone-100",
-    sepia: "bg-amber-50 text-stone-800",
+  // Theme-specific classes
+  const getThemeBodyClass = (t: ReaderTheme) => {
+    switch (t) {
+      case "light": return "bg-stone-50 text-stone-800";
+      case "dark": return "bg-stone-950 text-stone-100";
+      case "sepia": return "bg-amber-50 text-stone-800";
+      case "amoled": return "bg-black text-zinc-100";
+    }
   };
 
-  const themeBgClasses = {
-    light: "from-amber-50/50 to-white",
-    dark: "from-stone-900/50 to-stone-950",
-    sepia: "from-amber-100/50 to-amber-50",
+  const getThemeBgClass = (t: ReaderTheme) => {
+    switch (t) {
+      case "light": return "from-amber-50/50 to-white";
+      case "dark": return "from-stone-900/50 to-stone-950";
+      case "sepia": return "from-amber-100/50 to-amber-50";
+      case "amoled": return "from-zinc-950 to-black";
+    }
+  };
+
+  const getCardClass = (t: ReaderTheme) => {
+    switch (t) {
+      case "light": return "bg-white/80";
+      case "dark": return "bg-stone-900/50";
+      case "sepia": return "bg-amber-100/50";
+      case "amoled": return "bg-black";
+    }
   };
 
   if (loading) {
     return (
-      <div className={`min-h-screen ${themeClasses.light}`}>
+      <div className="min-h-screen bg-stone-50">
         <header className="sticky top-0 z-50 border-b border-stone-200/50 bg-inherit backdrop-blur-sm">
           <div className="mx-auto max-w-4xl px-4 py-4">
             <div className="h-8 w-32 animate-pulse rounded bg-stone-200" />
@@ -316,7 +336,7 @@ The emperor straightened, the weight of three thousand years falling from his sh
   }
 
   return (
-    <div className={`min-h-screen ${themeClasses[theme]} transition-colors duration-300`}>
+    <div className={`min-h-screen ${getThemeBodyClass(theme)} transition-colors duration-300`}>
       {/* Reading Progress Bar */}
       <div className="fixed top-0 left-0 right-0 z-[60] h-1 bg-stone-200/50">
         <div
@@ -326,7 +346,7 @@ The emperor straightened, the weight of three thousand years falling from his sh
       </div>
 
       {/* Header */}
-      <header className={`sticky top-0 z-50 border-b border-stone-200/30 bg-gradient-to-r ${themeBgClasses[theme]} backdrop-blur-xl transition-colors duration-300`}>
+      <header className={`sticky top-0 z-50 border-b border-stone-200/30 bg-gradient-to-r ${getThemeBgClass(theme)} backdrop-blur-xl transition-colors duration-300`}>
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
           <Link
             href={`/novel/${params.slug}`}
@@ -411,35 +431,37 @@ The emperor straightened, the weight of three thousand years falling from his sh
 
         {/* Settings Panel */}
         <div className={`overflow-hidden transition-all duration-300 ${
-          showSettings ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+          showSettings ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         }`}>
           <div className={`mx-4 mb-4 rounded-2xl border border-stone-200/30 p-4 backdrop-blur-sm ${
-            theme === "dark" ? "bg-stone-800/50" : "bg-white/80"
+            theme === "dark" || theme === "amoled" ? "bg-stone-800/50" : "bg-white/80"
           }`}>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
               {/* Theme */}
               <div>
-                <label className={`text-sm font-medium ${theme === "dark" ? "text-stone-300" : "text-stone-700"}`}>
+                <label className={`text-xs font-medium ${theme === "dark" || theme === "amoled" ? "text-stone-300" : "text-stone-700"}`}>
                   Theme
                 </label>
-                <div className="mt-2 grid grid-cols-3 gap-1.5">
-                  {(["light", "dark", "sepia"] as const).map((t) => (
+                <div className="mt-2 grid grid-cols-4 gap-1">
+                  {(["light", "dark", "sepia", "amoled"] as const).map((t) => (
                     <button
                       key={t}
                       onClick={() => setTheme(t)}
-                      className={`rounded-lg py-2 text-xs font-medium capitalize transition-all ${
+                      className={`rounded-lg py-1.5 text-xs font-medium capitalize transition-all ${
                         theme === t
                           ? t === "light"
                             ? "bg-amber-500 text-white shadow-lg shadow-amber-200"
                             : t === "dark"
                             ? "bg-stone-700 text-white"
-                            : "bg-amber-200 text-amber-900"
-                          : theme === "dark"
+                            : t === "sepia"
+                            ? "bg-amber-200 text-amber-900"
+                            : "bg-zinc-900 text-white border border-zinc-700"
+                          : theme === "dark" || theme === "amoled"
                           ? "bg-stone-700/50 text-stone-300 hover:bg-stone-700"
                           : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                       }`}
                     >
-                      {t}
+                      {themeLabels[t]}
                     </button>
                   ))}
                 </div>
@@ -447,13 +469,13 @@ The emperor straightened, the weight of three thousand years falling from his sh
 
               {/* Font Size */}
               <div>
-                <label className={`text-sm font-medium ${theme === "dark" ? "text-stone-300" : "text-stone-700"}`}>
+                <label className={`text-xs font-medium ${theme === "dark" || theme === "amoled" ? "text-stone-300" : "text-stone-700"}`}>
                   Size: {fontSize}px
                 </label>
                 <input
                   type="range"
                   min="14"
-                  max="28"
+                  max="32"
                   value={fontSize}
                   onChange={(e) => setFontSize(parseInt(e.target.value))}
                   className="mt-2 w-full accent-amber-500"
@@ -462,13 +484,13 @@ The emperor straightened, the weight of three thousand years falling from his sh
 
               {/* Line Height */}
               <div>
-                <label className={`text-sm font-medium ${theme === "dark" ? "text-stone-300" : "text-stone-700"}`}>
+                <label className={`text-xs font-medium ${theme === "dark" || theme === "amoled" ? "text-stone-300" : "text-stone-700"}`}>
                   Line: {lineHeight.toFixed(1)}
                 </label>
                 <input
                   type="range"
                   min="1.2"
-                  max="2.4"
+                  max="3.0"
                   step="0.1"
                   value={lineHeight}
                   onChange={(e) => setLineHeight(parseFloat(e.target.value))}
@@ -476,25 +498,64 @@ The emperor straightened, the weight of three thousand years falling from his sh
                 />
               </div>
 
+              {/* Margin */}
+              <div>
+                <label className={`text-xs font-medium ${theme === "dark" || theme === "amoled" ? "text-stone-300" : "text-stone-700"}`}>
+                  Margin: {margin}px
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="40"
+                  value={margin}
+                  onChange={(e) => setMargin(parseInt(e.target.value))}
+                  className="mt-2 w-full accent-amber-500"
+                />
+              </div>
+
               {/* Font Family */}
               <div>
-                <label className={`text-sm font-medium ${theme === "dark" ? "text-stone-300" : "text-stone-700"}`}>
+                <label className={`text-xs font-medium ${theme === "dark" || theme === "amoled" ? "text-stone-300" : "text-stone-700"}`}>
                   Font
                 </label>
                 <div className="mt-2 flex gap-1">
-                  {(["sans", "serif", "mono"] as const).map((f) => (
+                  {(["sans", "serif", "mono", "system"] as const).map((f) => (
                     <button
                       key={f}
                       onClick={() => setFontFamily(f)}
-                      className={`flex-1 rounded-lg py-2 text-xs font-medium capitalize transition-all ${
+                      className={`flex-1 rounded-lg py-1.5 text-xs font-medium capitalize transition-all ${
                         fontFamily === f
                           ? "bg-amber-500 text-white shadow-lg shadow-amber-200"
-                          : theme === "dark"
+                          : theme === "dark" || theme === "amoled"
                           ? "bg-stone-700/50 text-stone-300 hover:bg-stone-700"
                           : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                       }`}
                     >
                       {fontFamilyLabels[f]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Text Align */}
+              <div>
+                <label className={`text-xs font-medium ${theme === "dark" || theme === "amoled" ? "text-stone-300" : "text-stone-700"}`}>
+                  Align
+                </label>
+                <div className="mt-2 flex gap-1">
+                  {(["left", "justify"] as const).map((a) => (
+                    <button
+                      key={a}
+                      onClick={() => setTextAlign(a)}
+                      className={`flex-1 rounded-lg py-1.5 text-xs font-medium capitalize transition-all ${
+                        textAlign === a
+                          ? "bg-amber-500 text-white shadow-lg shadow-amber-200"
+                          : theme === "dark" || theme === "amoled"
+                          ? "bg-stone-700/50 text-stone-300 hover:bg-stone-700"
+                          : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+                      }`}
+                    >
+                      {a === "left" ? "Left" : "Justify"}
                     </button>
                   ))}
                 </div>
@@ -618,13 +679,15 @@ The emperor straightened, the weight of three thousand years falling from his sh
       )}
 
       {/* Content */}
-      <article ref={contentRef} className="mx-auto max-w-4xl px-4 py-8">
+      <article ref={contentRef} className="mx-auto py-8" style={{ paddingLeft: `${margin}px`, paddingRight: `${margin}px` }}>
         <div
           className={`rounded-3xl p-6 sm:p-8 shadow-xl transition-colors duration-300 ${
             theme === "dark"
               ? "bg-stone-900/50"
               : theme === "sepia"
               ? "bg-amber-100/50"
+              : theme === "amoled"
+              ? "bg-zinc-900"
               : "bg-white/80"
           }`}
           style={{
@@ -635,7 +698,7 @@ The emperor straightened, the weight of three thousand years falling from his sh
           <h1 className="mb-8 text-center text-2xl font-bold tracking-tight">
             Chapter {chapterNumber}
           </h1>
-          <div className={`tracking-wide ${fontFamilyClasses[fontFamily]}`}>
+          <div className={`tracking-wide ${fontFamilyClasses[fontFamily]}`} style={{ textAlign }}>
             {chapterContent.split("\n\n").map((paragraph, i) => (
               <p key={i} className="mb-6 first-letter:text-2xl first-letter:font-bold">
                 {paragraph}

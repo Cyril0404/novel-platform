@@ -1,0 +1,147 @@
+{
+  "common": {
+    "home": "Inicio",
+    "search": "Buscar",
+    "bookshelf": "Biblioteca",
+    "history": "Historial",
+    "profile": "Perfil",
+    "signIn": "Iniciar Sesión",
+    "signOut": "Cerrar Sesión",
+    "loading": "Cargando..."
+  },
+  "home": {
+    "hero": {
+      "title": "Descubre Tu Próxima",
+      "titleHighlight": "Gran Lectura",
+      "subtitle": "Miles de historias te esperan. Desde fantasías épicas hasta romances conmovedores, encuentra mundos donde perderte.",
+      "browseNovels": "Explorar Novelas",
+      "signIn": "Iniciar Sesión"
+    },
+    "trending": {
+      "title": "Recién Actualizados",
+      "subtitle": "Nuevos capítulos de tus novelas favoritas",
+      "viewAll": "Ver Todo"
+    },
+    "featured": {
+      "title": "Más Valorados",
+      "subtitle": "Las novelas mejor valoradas por nuestros lectores"
+    },
+    "genres": {
+      "title": "Explorar por Género",
+      "subtitle": "Encuentra historias que coincidan con tu estado de ánimo"
+    },
+    "stats": {
+      "activeReaders": "Lectores Activos",
+      "novels": "Novelas",
+      "chaptersRead": "Capítulos Leídos"
+    },
+    "cta": {
+      "title": "Comienza Tu Viaje de Lectura Hoy",
+      "subtitle": "Únete a miles de lectores descubriendo nuevas historias cada día. Gratis para empezar, con opciones premium disponibles.",
+      "getStarted": "Comenzar Gratis"
+    }
+  },
+  "novel": {
+    "startReading": "Comenzar a Leer",
+    "continueReading": "Continuar Leyendo",
+    "latestChapter": "Último Capítulo",
+    "chapters": "Capítulos",
+    "synopsis": "Sinopsis",
+    "aboutAuthor": "Sobre el Autor",
+    "noBio": "Sin biografía disponible.",
+    "recent": "Recientes",
+    "oldest": "Más Antiguos",
+    "jumpToChapter": "Ir al Capítulo",
+    "go": "Ir"
+  },
+  "reader": {
+    "back": "Volver",
+    "chapter": "Capítulo",
+    "settings": "Ajustes",
+    "bookmark": "Marcador",
+    "theme": {
+      "light": "Claro",
+      "dark": "Oscuro",
+      "sepia": "Sepia",
+      "amoled": "AMOLED"
+    },
+    "font": {
+      "sans": "Sans",
+      "serif": "Serif",
+      "mono": "Mono",
+      "system": "Sistema"
+    },
+    "align": {
+      "left": "Izquierda",
+      "justify": "Justificar"
+    },
+    "tts": {
+      "play": "Reproducir",
+      "stop": "Detener",
+      "speed": "Velocidad",
+      "reading": "Leyendo párrafo {current} de {total}..."
+    },
+    "bookmark": {
+      "add": "Añadir Marcador",
+      "save": "Guardar Marcador",
+      "cancel": "Cancelar",
+      "placeholder": "Mis pensamientos sobre este capítulo..."
+    },
+    "navigation": {
+      "firstChapter": "Primer Capítulo",
+      "chapterList": "Lista de Capítulos",
+      "latestChapter": "Último Capítulo"
+    }
+  },
+  "bookshelf": {
+    "title": "Mi Biblioteca",
+    "welcome": "Bienvenido de nuevo",
+    "signInToSync": "Inicia sesión para sincronizar tu biblioteca",
+    "novels": "novelas",
+    "stats": {
+      "total": "Total",
+      "reading": "Leyendo",
+      "completed": "Completado"
+    },
+    "filters": {
+      "all": "Todo",
+      "reading": "Leyendo",
+      "completed": "Completado",
+      "plan": "Plan a Leer"
+    },
+    "empty": {
+      "title": "Tu biblioteca está vacía",
+      "subtitle": "Empieza a explorar novelas y añádelas a tu biblioteca",
+      "browse": "Explorar Novelas"
+    },
+    "status": {
+      "update": "Actualizar Estado",
+      "reading": "Leyendo",
+      "completed": "Completado",
+      "planToRead": "Plan a Leer",
+      "onHold": "En Pausa",
+      "dropped": "Abandonado"
+    },
+    "actions": {
+      "startReading": "Comenzar a Leer",
+      "remove": "Eliminar de la biblioteca"
+    }
+  },
+  "reviews": {
+    "title": "Reseñas y Valoraciones",
+    "ratings": "{count} valoraciones",
+    "writeReview": "Escribir una Reseña",
+    "updateReview": "Actualizar Tu Reseña",
+    "signInToReview": "Inicia sesión para escribir una reseña",
+    "yourRating": "Tu Valoración",
+    "yourReview": "Tu Reseña (opcional)",
+    "placeholder": "Comparte tus pensamientos sobre esta novela...",
+    "submit": "Enviar Reseña",
+    "update": "Actualizar Reseña",
+    "submitting": "Enviando...",
+    "noReviews": "¡Sin reseñas aún. Sé el primero en opinar!"
+  },
+  "recommendations": {
+    "title": "También Te Puede Gustar"
+  }
+}

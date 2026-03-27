@@ -1,0 +1,147 @@
+{
+  "common": {
+    "home": "Home",
+    "search": "Search",
+    "bookshelf": "Bookshelf",
+    "history": "History",
+    "profile": "Profile",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "loading": "Loading..."
+  },
+  "home": {
+    "hero": {
+      "title": "Discover Your Next",
+      "titleHighlight": "Great Read",
+      "subtitle": "Thousands of stories await. From epic fantasies to heartwarming romances, find worlds you can lose yourself in.",
+      "browseNovels": "Browse Novels",
+      "signIn": "Sign In"
+    },
+    "trending": {
+      "title": "Recently Updated",
+      "subtitle": "Fresh chapters from your favorite novels",
+      "viewAll": "View All"
+    },
+    "featured": {
+      "title": "Top Rated",
+      "subtitle": "Highest rated novels by our readers"
+    },
+    "genres": {
+      "title": "Browse by Genre",
+      "subtitle": "Find stories that match your mood"
+    },
+    "stats": {
+      "activeReaders": "Active Readers",
+      "novels": "Novels",
+      "chaptersRead": "Chapters Read"
+    },
+    "cta": {
+      "title": "Start Your Reading Journey Today",
+      "subtitle": "Join thousands of readers discovering new stories every day. Free to start, with premium options available.",
+      "getStarted": "Get Started Free"
+    }
+  },
+  "novel": {
+    "startReading": "Start Reading",
+    "continueReading": "Continue Reading",
+    "latestChapter": "Latest Chapter",
+    "chapters": "Chapters",
+    "synopsis": "Synopsis",
+    "aboutAuthor": "About the Author",
+    "noBio": "No bio available.",
+    "recent": "Recent",
+    "oldest": "Oldest",
+    "jumpToChapter": "Jump to Chapter",
+    "go": "Go"
+  },
+  "reader": {
+    "back": "Back",
+    "chapter": "Chapter",
+    "settings": "Settings",
+    "bookmark": "Bookmark",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "sepia": "Sepia",
+      "amoled": "AMOLED"
+    },
+    "font": {
+      "sans": "Sans",
+      "serif": "Serif",
+      "mono": "Mono",
+      "system": "System"
+    },
+    "align": {
+      "left": "Left",
+      "justify": "Justify"
+    },
+    "tts": {
+      "play": "Play",
+      "stop": "Stop",
+      "speed": "Speed",
+      "reading": "Reading paragraph {current} of {total}..."
+    },
+    "bookmark": {
+      "add": "Add Bookmark",
+      "save": "Save Bookmark",
+      "cancel": "Cancel",
+      "placeholder": "My thoughts on this chapter..."
+    },
+    "navigation": {
+      "firstChapter": "First Chapter",
+      "chapterList": "Chapter List",
+      "latestChapter": "Latest Chapter"
+    }
+  },
+  "bookshelf": {
+    "title": "My Bookshelf",
+    "welcome": "Welcome back",
+    "signInToSync": "Sign in to sync your bookshelf",
+    "novels": "novels",
+    "stats": {
+      "total": "Total",
+      "reading": "Reading",
+      "completed": "Completed"
+    },
+    "filters": {
+      "all": "All",
+      "reading": "Reading",
+      "completed": "Completed",
+      "plan": "Plan to Read"
+    },
+    "empty": {
+      "title": "Your bookshelf is empty",
+      "subtitle": "Start exploring novels and add them to your bookshelf",
+      "browse": "Browse Novels"
+    },
+    "status": {
+      "update": "Update Status",
+      "reading": "Reading",
+      "completed": "Completed",
+      "planToRead": "Plan to Read",
+      "onHold": "On Hold",
+      "dropped": "Dropped"
+    },
+    "actions": {
+      "startReading": "Start Reading",
+      "remove": "Remove from bookshelf"
+    }
+  },
+  "reviews": {
+    "title": "Reviews & Ratings",
+    "ratings": "{count} ratings",
+    "writeReview": "Write a Review",
+    "updateReview": "Update Your Review",
+    "signInToReview": "Sign in to write a review",
+    "yourRating": "Your Rating",
+    "yourReview": "Your Review (optional)",
+    "placeholder": "Share your thoughts about this novel...",
+    "submit": "Submit Review",
+    "update": "Update Review",
+    "submitting": "Submitting...",
+    "noReviews": "No reviews yet. Be the first to review!"
+  },
+  "recommendations": {
+    "title": "You Might Also Like"
+  }
+}

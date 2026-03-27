@@ -1,0 +1,147 @@
+{
+  "common": {
+    "home": "الرئيسية",
+    "search": "بحث",
+    "bookshelf": "المكتبة",
+    "history": "السجل",
+    "profile": "الملف الشخصي",
+    "signIn": "تسجيل الدخول",
+    "signOut": "تسجيل الخروج",
+    "loading": "جاري التحميل..."
+  },
+  "home": {
+    "hero": {
+      "title": "اكتشف قراءتك",
+      "titleHighlight": "الرائعة القادمة",
+      "subtitle": "آلاف القصص في انتظارك. من الفانتازيا الملحمية إلى قصص الحب الدافئة، اعثر على عوالم يمكنك أن تضيع فيها.",
+      "browseNovels": "تصفح الروايات",
+      "signIn": "تسجيل الدخول"
+    },
+    "trending": {
+      "title": "المحدثة مؤخراً",
+      "subtitle": "فصول جديدة من رواياتك المفضلة",
+      "viewAll": "عرض الكل"
+    },
+    "featured": {
+      "title": "الأعلى تقييماً",
+      "subtitle": "الروايات الأعلى تقييماً من قراءنا"
+    },
+    "genres": {
+      "title": "تصفح حسب النوع",
+      "subtitle": "اعثر على قصص تناسب مزاجك"
+    },
+    "stats": {
+      "activeReaders": "قراء نشطين",
+      "novels": "روايات",
+      "chaptersRead": "فصول مقروءة"
+    },
+    "cta": {
+      "title": "ابدأ رحلة القراءة اليوم",
+      "subtitle": "انضم إلى آلاف القراء الذين يكتشفون قصصاً جديدة كل يوم. مجاني للبدء، مع خيارات premium متاحة.",
+      "getStarted": "ابدأ مجاناً"
+    }
+  },
+  "novel": {
+    "startReading": "ابدأ القراءة",
+    "continueReading": "استمر في القراءة",
+    "latestChapter": "آخر فصل",
+    "chapters": "الفصول",
+    "synopsis": "الملخص",
+    "aboutAuthor": "عن المؤلف",
+    "noBio": "لا يوجد سيرة ذاتية.",
+    "recent": "الأحدث",
+    "oldest": "الأقدم",
+    "jumpToChapter": "انتقل إلى الفصل",
+    "go": "انتقل"
+  },
+  "reader": {
+    "back": "رجوع",
+    "chapter": "الفصل",
+    "settings": "الإعدادات",
+    "bookmark": "المرجعية",
+    "theme": {
+      "light": "فاتح",
+      "dark": "داكن",
+      "sepia": "بني داكن",
+      "amoled": "AMOLED"
+    },
+    "font": {
+      "sans": "Sans",
+      "serif": "Serif",
+      "mono": "Mono",
+      "system": "النظام"
+    },
+    "align": {
+      "left": "يسار",
+      "justify": "ضبط"
+    },
+    "tts": {
+      "play": "تشغيل",
+      "stop": "إيقاف",
+      "speed": "السرعة",
+      "reading": "قراءة الفقرة {current} من {total}..."
+    },
+    "bookmark": {
+      "add": "إضافة مرجعية",
+      "save": "حفظ المرجعية",
+      "cancel": "إلغاء",
+      "placeholder": "أفكاري حول هذا الفصل..."
+    },
+    "navigation": {
+      "firstChapter": "الفصل الأول",
+      "chapterList": "قائمة الفصول",
+      "latestChapter": "آخر فصل"
+    }
+  },
+  "bookshelf": {
+    "title": "مكتبتي",
+    "welcome": "مرحباً بعودتك",
+    "signInToSync": "سجل الدخول لمزامنة مكتبتك",
+    "novels": "روايات",
+    "stats": {
+      "total": "الإجمالي",
+      "reading": "قيد القراءة",
+      "completed": "مكتمل"
+    },
+    "filters": {
+      "all": "الكل",
+      "reading": "قيد القراءة",
+      "completed": "مكتمل",
+      "plan": "مخطط للقراءة"
+    },
+    "empty": {
+      "title": "مكتبتك فارغة",
+      "subtitle": "ابدأ استكشاف الروايات وأضفها إلى مكتبتك",
+      "browse": "تصفح الروايات"
+    },
+    "status": {
+      "update": "تحديث الحالة",
+      "reading": "قيد القراءة",
+      "completed": "مكتمل",
+      "planToRead": "مخطط للقراءة",
+      "onHold": "معلق",
+      "dropped": "متروك"
+    },
+    "actions": {
+      "startReading": "ابدأ القراءة",
+      "remove": "إزالة من المكتبة"
+    }
+  },
+  "reviews": {
+    "title": "التقييمات والمراجعات",
+    "ratings": "{count} تقييمات",
+    "writeReview": "كتابة مراجعة",
+    "updateReview": "تحديث مراجعتك",
+    "signInToReview": "سجل الدخول لكتابة مراجعة",
+    "yourRating": "تقييمك",
+    "yourReview": "مراجعتك (اختياري)",
+    "placeholder": "شارك أفكارك حول هذه الرواية...",
+    "submit": "إرسال المراجعة",
+    "update": "تحديث المراجعة",
+    "submitting": "جاري الإرسال...",
+    "noReviews": "لا توجد مراجعات بعد. كن أول من يراجع!"
+  },
+  "recommendations": {
+    "title": "قد يعجبك أيضاً"
+  }
+}
