@@ -1,0 +1,150 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  avatar        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  bookshelf     Bookshelf[]
+  readingProgress ReadingProgress[]
+  bookmarks     Bookmark[]
+  reviews       Review[]
+}
+
+model Novel {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  synopsis    String
+  cover       String
+  status      String    @default("ONGOING") // ONGOING, COMPLETED, HIATUS, DROPPED
+  rating      Float     @default(0)
+  totalRatings Int      @default(0)
+  views       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  author      Author    @relation(fields: [authorId], references: [id])
+  authorId    String
+
+  chapters    Chapter[]
+  genres      Genre[]
+  tags        Tag[]
+  bookshelf   Bookshelf[]
+  reviews     Review[]
+}
+
+model Author {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  bio       String?
+  avatar    String?
+  createdAt DateTime  @default(now())
+
+  novels    Novel[]
+}
+
+model Chapter {
+  id        String    @id @default(cuid())
+  number    Int
+  title     String
+  content   String
+  wordCount Int       @default(0)
+  publishedAt DateTime @default(now())
+
+  novel     Novel     @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  novelId   String
+
+  readingProgress ReadingProgress[]
+  bookmarks       Bookmark[]
+
+  @@unique([novelId, number])
+}
+
+model Genre {
+  id      String    @id @default(cuid())
+  name    String    @unique
+  slug    String    @unique
+
+  novels  Novel[]
+}
+
+model Tag {
+  id      String    @id @default(cuid())
+  name    String    @unique
+  slug    String    @unique
+
+  novels  Novel[]
+}
+
+model Bookshelf {
+  id        String    @id @default(cuid())
+  status    String    @default("READING") // READING, COMPLETED, PLAN_TO_READ, ON_HOLD, DROPPED
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+
+  novel    Novel     @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  novelId  String
+
+  @@unique([userId, novelId])
+}
+
+model ReadingProgress {
+  id          String    @id @default(cuid())
+  chapterNumber Int
+  percentage  Int       @default(0)
+  updatedAt   DateTime  @updatedAt
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+
+  chapter     Chapter   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId   String
+
+  @@unique([userId, chapterId])
+}
+
+model Bookmark {
+  id          String    @id @default(cuid())
+  position    Int       // Character position in chapter
+  note        String?
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+
+  chapter     Chapter   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId   String
+}
+
+model Review {
+  id        String    @id @default(cuid())
+  rating    Int       // 1-5
+  content   String?
+  createdAt DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  novel     Novel     @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  novelId   String
+
+  @@unique([userId, novelId])
+}
